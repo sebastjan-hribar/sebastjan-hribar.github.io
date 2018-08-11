@@ -81,7 +81,7 @@ module Web::Controllers::UserSessions
         # User is looked up in the repository by email
         @user = UserRepository.user_with_email(email)
 
-        # Email and password (ad hoc encrypted) are 
+        # Email and password (ad hoc encrypted) are
         #compared with those in the database and
         #corresponding control flow is in place.
         if !@user
@@ -90,7 +90,7 @@ module Web::Controllers::UserSessions
           doesn't exist."
           redirect_to '/'
         else
-          if @user && @user.password_hash == 
+          if @user && @user.password_hash ==
           BCrypt::Engine.hash_secret(password,
          @user.password_salt)
             session[:current_user] = @user
@@ -185,10 +185,10 @@ module Web::Controllers::Passwordreset
       if params.valid?
         # Sets variables from param values
         email = params[:passwordreset][:email]
-                
+
         user = UserRepository.user_with_email(email)
-        
-        
+
+
         # Generate the token and update user with the time of the password reset link
         # and the generated token.
         token = SecureRandom.urlsafe_base64
@@ -199,15 +199,15 @@ module Web::Controllers::Passwordreset
         # Set the reset e-mail tiel and body
         title = "Ponastavitev gesla"
         body = "http://localhost:2300/passwordupdate/#{token}"
-        
+
         # Send the reset email
         Mailers::Passwordreset.deliver(mail_title: title, mail_body: body, user_email: email)
-        
-        
+
+
         flash[:success_notice] = "Password reset link sent."
         redirect_to '/'
 
-        
+
       else
         flash[:failed_notice] = "The e-mail wasn't found."
         redirect_to 'passwordreset/edit'
@@ -237,11 +237,11 @@ module Web::Controllers::Passwordupdate
       if params.valid?
         @new_pass = params[:passwordupdate][:new_password]
         token = params[:token]
-        
+
         # Find user by token, looking at both repositories.     
         @user = UserRepository.user_by_token(token)
         @repository = UserRepository
- 
+
         # Check for reset link validity
         if Time.now > @user.password_reset_sent_at.to_time + 7200
           flash[:failed_notice] = "Reset link validity (2 hours) has expired."
@@ -249,10 +249,10 @@ module Web::Controllers::Passwordupdate
         else
           password_salt = BCrypt::Engine.generate_salt
           password_hash = BCrypt::Engine.hash_secret(@new_pass, password_salt)
-          
+
           @user.update(password_hash: password_hash, password_salt: password_salt)
           @user = @repository.update(@user)     
-   
+
           flash[:success_notice] = "The password was reset."
           redirect_to "/"
         end
@@ -263,5 +263,3 @@ module Web::Controllers::Passwordupdate
   end
 end
 {% endhighlight %}
-
-{% include comments.html %}
