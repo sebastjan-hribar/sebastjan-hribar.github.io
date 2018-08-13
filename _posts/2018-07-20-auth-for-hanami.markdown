@@ -263,3 +263,5 @@ module Web::Controllers::Passwordupdate
   end
 end
 {% endhighlight %}
+
+{% include comments.html %}

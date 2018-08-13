@@ -227,3 +227,4 @@ Then reload the configuration with `sudo nginx -s reload`.
 ### 10. Credits
 Special thanks to [vasspilka](https://github.com/vasspilka) for extensive help during the deployment process and especially for preparing the Docker and Nginx configuration.
 
+{% include comments.html %}
