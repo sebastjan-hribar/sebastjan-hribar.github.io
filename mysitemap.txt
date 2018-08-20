@@ -1,2 +1,0 @@
-https://sebastjan-hribar.github.io/2018/07/20/auth-for-hanami.html
-https://sebastjan-hribar.github.io/2018/07/19/hanami-app-deployment-example.html
