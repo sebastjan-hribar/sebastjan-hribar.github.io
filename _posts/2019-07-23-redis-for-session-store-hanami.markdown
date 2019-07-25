@@ -23,8 +23,9 @@ Require redis:
 require 'rack/session/redis'
 {% endhighlight %}
 
-Switch from
+Switch from cookies to redis:
 {% highlight ruby %}
+#sessions :cookie, secret: ENV['WEB_SESSIONS_SECRET']
 sessions :redis, secret: ENV['WEB_SESSIONS_SECRET']
 {% endhighlight %}
 
@@ -45,3 +46,12 @@ def call(params)
   end
 end
 {% endhighlight %}
+
+
+The `s_key` in returns the rack session ID and the `s_value` returns the everything stored in the session:
+
+{% highlight ruby %}
+s_key: rack:session:1sdrf724945701f13d0a5hju8ffb0078572fser42137948sdfr0d1fhju89bae4a
+s_value: {"_csrf_token"=>"9sfg5461cfsdgh7285e16616c974we45t0db5c73dcfc1312b3c9ab91937b809c2", "LOCK"=>"Off", "current_user_class"=>Teacher, "session_start_time"=>2019-07-25 17:26:19 +0200, "__last_request_id"=>"sde458c7454745tg6d8a964b223456f2", "current_user"=>1}
+{% endhighlight %}
+
