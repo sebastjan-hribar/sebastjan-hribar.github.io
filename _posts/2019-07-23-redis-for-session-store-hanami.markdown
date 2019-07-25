@@ -48,7 +48,7 @@ end
 {% endhighlight %}
 
 
-The `s_key` in returns the rack session ID and the `s_value` returns the everything stored in the session:
+The `s_key` returns the rack session ID and the `s_value` returns the everything stored in the session:
 
 {% highlight ruby %}
 s_key: rack:session:1sdrf724945701f13d0a5hju8ffb0078572fser42137948sdfr0d1fhju89bae4a
