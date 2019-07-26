@@ -57,3 +57,5 @@ s_value: {"_csrf_token"=>"9sfg5461cfsdgh7285e16616c974we45t0db5c73dcfc1312b3c9ab
 
 #### Credits
 Thanks to Luca Guidi, the creator of the Hanami framework and the redis-store.
+
+{% include comments.html %}
