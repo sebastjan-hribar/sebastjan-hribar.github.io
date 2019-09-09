@@ -3,6 +3,7 @@ layout: post
 title:  "Deploying Hanami web application with Puma, Nginx and PostgreSQL using Docker"
 date:   2018-07-19 21:45:40 +0200
 tags:   [hanami, deployment, puma, docker]
+categories: Programming
 ---
 
 ## Deploying Hanami web application with Puma, Nginx and PostgreSQL using Docker

@@ -2,6 +2,8 @@
 layout: post
 title: "Using redis for session store in a Hanami application"
 date: 2019-07-23 17:00:00 +0200
+tags: [hanami, redis, sessions]
+categories: Programming
 ---
 
 To be able to list logged in users in my Hanami application I've switched from cookies

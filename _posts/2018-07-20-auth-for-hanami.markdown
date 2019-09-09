@@ -2,6 +2,8 @@
 layout: post
 title:  "Authentication for Hanami applications"
 date:   2018-07-20 09:45:40 +0200
+tags: [hanami, authentication]
+categories: Programming
 ---
 
 I wanted to learn about the workings of an authenitaction system for a web application and I decided to make my own for a Hanami based web application I was working on at the time.
