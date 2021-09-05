@@ -316,7 +316,7 @@ end
 
 
 ### 4.3 Mailers
-
+{% highlight ruby %}
 class Mailers::Passwordreset
   include Hanami::Mailer
 
@@ -336,6 +336,7 @@ class Mailers::Passwordreset
   end
 
 end
+{% endhighlight %}
 
 ### 4.4 Routes
 In order for the code below to work these routes have to be defined:
@@ -385,7 +386,7 @@ Don't forget to include this module in the `application.rb`.
 #
 #
 controller.prepare do
-  include Sentinel::Authentication
+  include AuthApp::Authentication
   # include MyAuthentication # included in all the actions
   # before :authenticate!    # run an authentication before callback
 end
