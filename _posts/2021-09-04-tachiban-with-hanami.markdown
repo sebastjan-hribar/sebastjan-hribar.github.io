@@ -272,9 +272,11 @@ end
 #### 4.2.2 Password update action
 
 {% highlight ruby %}
-module Web::Controllers::Passwordupdate
-  class Update
-    include Web::Action
+module AuthApp
+  module Controllers
+    module Passwordupdate
+      class Update
+        include Web::Action
 
     params do
       param :token, presence: true
@@ -337,6 +339,8 @@ class Mailers::Passwordreset
 
 end
 {% endhighlight %}
+
+Also don't forget to setup the delivery configuration in the `environment.rb`.
 
 ### 4.4 Routes
 In order for the code below to work these routes have to be defined:
