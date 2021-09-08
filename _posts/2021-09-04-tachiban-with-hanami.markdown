@@ -7,7 +7,7 @@ categories: Programming
 ---
 
 In this post I'll describe how I use the authentication gem [Tachiban](https://github.com/sebastjan-hribar/tachiban) in my Hanami 1.3 applications.
-I use a separate Hanami applicaion to handle authentication and authorization. I'll focus on the authorization in a separate post.
+I use a separate Hanami application to handle authentication and authorization. I'll focus on the authorization ([Rokku](https://github.com/sebastjan-hribar/rokku)) in a separate post.
 
 # Authentication application elements
 There are currently five main application elements that drive authentication: users, user sessions, dashboard, password reset/update and setting Tachiban defaults. I use one separate module for setting the Tachiban defaults, while I override certain Tachiban methods where appropriate.
