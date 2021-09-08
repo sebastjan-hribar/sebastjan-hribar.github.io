@@ -296,7 +296,7 @@ module AuthApp
         user = user_repo.user_by_token(token)
 
         # Check for reset link validity
-        if Time.now > user.password_reset_sent_at.to_time + 7200
+        if !password_reset_url_valid?(7200)
           flash[:failed_notice] = "Reset link validity (2 hours) has expired."
           redirect_to "/"
         else
