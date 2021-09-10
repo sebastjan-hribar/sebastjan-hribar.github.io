@@ -300,7 +300,7 @@ module AuthApp
           password_salt = BCrypt::Engine.generate_salt
           password_hash = BCrypt::Engine.hash_secret(@new_pass, password_salt)
 
-          user.update(password_hash: password_hash, password_salt: password_salt)
+          user_repo.update(user.id, password_hash: password_hash, password_salt: password_salt)
 
           flash[:success_notice] = "The password was reset."
           redirect_to "/"
