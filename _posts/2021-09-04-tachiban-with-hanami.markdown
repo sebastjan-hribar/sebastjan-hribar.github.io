@@ -215,12 +215,12 @@ get '/dashboard', to: 'dashboard#index'
 ## 4. Password reset/update
 
 ### 4.1 Entities
-There are no entities required for user sessions, but only controllers and actions.
+There are no entities required for user sessions, but only controllers and actions. For both I use the EDIT/UPDATE actions. The templates are not included here.
 
 ### 4.2 Controllers
 There are two set of actions for this functionality: one for requesting the password reset (or to handle a forgotten password) and the other for updating the password.
 
-#### 4.2.1 Password reset action
+#### 4.2.1 Password reset UPDATE action
 
 {% highlight ruby %}
 
@@ -236,22 +236,19 @@ module AuthApp
 
     def call(params)
       if params.valid?
-        # Sets variables from param values
         email = params[:passwordreset][:email]
-
-        #Find the user in the DB
-        user = UserRepository.new.user_with_email(email)
+        user_repo = UserRepository.new
+        user = user_repo.new.find_by_email(email)
 
         # Generate the token and update user with the time of the password reset link
         # and the generated token.
         token = SecureRandom.urlsafe_base64
         password_reset_sent_time = Time.now
-        user.update(password_reset_token: token, password_reset_sent_at: password_reset_sent_time)
-        user = repository.update(user)
+        user_repo.update(user.id, password_reset_token: token, password_reset_sent_at: password_reset_sent_time)
 
-        # Set the reset e-mail tiel and body
+        # Set the reset e-mail title and body
         title = "Password reset"
-        body = "http://localhost:2300/passwordupdate/#{token}"
+        body = "http://localhost:2300/sentinel/passwordupdate/#{token}"
 
         # Send the reset email
         Mailers::Passwordreset.deliver(mail_title: title, mail_body: body, user_email: email)
@@ -269,7 +266,7 @@ end
 {% endhighlight %}
 
 
-#### 4.2.2 Password update action
+#### 4.2.2 Password update UPDATE action
 
 {% highlight ruby %}
 module AuthApp
