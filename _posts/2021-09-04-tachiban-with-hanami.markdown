@@ -261,6 +261,11 @@ module AuthApp
         #
       end
     end
+
+    private
+    def check_for_logged_in_user; end
+
+    def handle_session; end
   end
 end
 {% endhighlight %}
@@ -309,6 +314,11 @@ module AuthApp
         #
       end
     end
+  
+  private
+  def check_for_logged_in_user; end
+
+  def handle_session; end
   end
 end
 {% endhighlight %}
