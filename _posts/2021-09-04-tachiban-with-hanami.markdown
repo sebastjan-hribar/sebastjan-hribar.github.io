@@ -248,7 +248,7 @@ module AuthApp
 
         # Set the reset e-mail title and body
         title = "Password reset"
-        body = "http://localhost:2300/sentinel/passwordupdate/#{token}"
+        body = "http://localhost:2300/authapppasswordupdate/#{token}"
 
         # Send the reset email
         Mailers::Passwordreset.deliver(mail_title: title, mail_body: body, user_email: email)
