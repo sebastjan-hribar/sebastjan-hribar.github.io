@@ -248,7 +248,7 @@ module AuthApp
 
         # Set the reset e-mail title and body
         title = "Password reset"
-        body = "http://localhost:2300/authapppasswordupdate/#{token}"
+        body = "http://localhost:2300/authapp/passwordupdate/#{token}"
 
         # Send the reset email
         Mailers::Passwordreset.deliver(mail_title: title, mail_body: body, user_email: email)
@@ -271,54 +271,81 @@ end
 {% endhighlight %}
 
 
-#### 4.2.2 Password update UPDATE action
+#### 4.2.2 Password update EDIT action
+
+{% highlight ruby %}
+module AuthApp
+  module Controllers
+    module Passwordupdate
+      class Edit
+        include AuthApp::Action
+
+        expose :url_token
+
+        def call(params)
+          @url_token = params[:token]
+        end
+
+        private
+
+        def check_for_logged_in_user; end
+
+        def handle_session; end
+      end
+    end
+  end
+end
+{% endhighlight %}
+#### 4.2.3 Password update UPDATE action
 
 {% highlight ruby %}
 module AuthApp
   module Controllers
     module Passwordupdate
       class Update
-        include Web::Action
+        include AuthApp::Action
 
-    params do
-      param :token, presence: true
-      param :passwordupdate do
-        param :new_password, presence: true
-        param :repeat_password, presence: true
-      end
-    end
-
-    def call(params)
-      if params.valid?
-        @new_pass = params[:passwordupdate][:new_password]
-        token = params[:token]
-
-        # Find user by token.
-        user_repo = UserRepository.new
-        user = user_repo.user_by_token(token)
-
-        # Check for reset link validity
-        if !password_reset_url_valid?(7200)
-          flash[:failed_notice] = "Reset link validity (2 hours) has expired."
-          redirect_to "/"
-        else
-          password_salt = BCrypt::Engine.generate_salt
-          password_hash = BCrypt::Engine.hash_secret(@new_pass, password_salt)
-
-          user_repo.update(user.id, password_hash: password_hash, password_salt: password_salt)
-
-          flash[:success_notice] = "The password was reset."
-          redirect_to "/"
+        params do
+          required(:token).filled
+          required(:passwordupdate).schema do
+            required(:new_password).filled
+            required(:repeat_password).filled
+          end
         end
-      else
-        #
+
+        def call(params)
+          if params.valid?
+            new_pass = params[:passwordupdate][:new_password]
+            token = params[:token]
+
+            # Find user by token.
+            user_repo = UserRepository.new
+            @user = user_repo.find_by_token(token)
+            I18n.t :sn_passwordupdate_link_validity_expired
+            # Check for reset link validity
+            if password_reset_url_valid?(7200)
+              flash[:failed_notice] = I18n.t :sn_passwordupdate_link_validity_expired
+              redirect_to routes.root_path
+            else
+              new_hashed_pass = hashed_password(new_pass)
+              user_repo.update(@user.id, hashed_pass: new_hashed_pass)
+              flash[:success_notice] = I18n.t :sn_passwordupdate_password_reset
+              redirect_to routes.root_path
+            end
+          else
+            self.status = 422
+            flash[:error_messages] = translate_err_mess(params.errors)
+            redirect_to routes.root_path
+          end
+        end
+
+        private
+
+        def check_for_logged_in_user; end
+
+        def handle_session; end
       end
     end
-  
-  private
-  def check_for_logged_in_user; end
-
-  def handle_session; end
   end
 end
 {% endhighlight %}
