@@ -190,7 +190,7 @@ controller.prepare do
 end
 {% endhighlight %}
 
-### Last but not least, we need to override the "check_authorization" method in all actions where we don't require it.
+Last but not least, we need to override the "check_authorization" method in all actions where we don't require it.
 
 {% highlight ruby %}
 def check_authorization; end
