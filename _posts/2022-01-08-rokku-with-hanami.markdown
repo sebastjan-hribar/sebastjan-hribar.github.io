@@ -51,36 +51,36 @@ Since the example uses the same controller for admin users and all other users, 
 if current_user_roles.include?("admin")
   div class: "my-class" do
     div class: "my-form-field" do
-      h4 I18n.t :sn_user_attribute_label_roles
+      h4 I18n.t :user_attribute_label_roles
     end
     div class: "my-form-field" do
       check_box :roles, name: 'user[roles][]', value: 'new_user', id: 'new_user'
-      label I18n.t :sn_list_user_roles_new_user
+      label I18n.t :list_user_roles_new_user
     end
     div class: "my-form-field" do
-      check_box :roles, name: 'user[roles][]', value: 'some-role', id: 'some-role'
-      label I18n.t :sn_list_user_roles_some_role
+      check_box :roles, name: 'user[roles][]', value: 'admin', id: 'admin'
+      label I18n.t :list_user_roles_admin
     end
   end
 end
 {% endhighlight %}
 
-#### 1.2.1 EDIT template
+#### 1.2.2 EDIT tem2plate
 Here we also check for the logged in user authorization. Then we make the required checkboxes for assigning roles with checked options for existing role assignments.
 
-{% highlight ruby %}
+{% high2light ruby %}
 if current_user_roles.include?("admin")
   div class: "my-class-row" do
     div class: "my-form-field" do
-      h4 I18n.t :sn_user_attribute_label_roles
+      h4 I18n.t :user_attribute_label_roles
     end
     div class: "my-form-field" do
       user.roles.include?('new_user')? (check_box :roles, checked: 'checked', name: 'user[roles][]', value: 'new_user') : (check_box :roles, name: 'user[roles][]', value: 'new_user')
-      label I18n.t :sn_list_user_roles_new_user
+      label I18n.t :list_user_roles_new_user
     end
     div class: "my-form-field" do
-      user.roles.include?('some_role')? (check_box :roles, checked: 'checked', name: 'user[roles][]', value: 'some_role') : (check_box :roles, name: 'user[roles][]', value: 'some_role')
-      label I18n.t :sn_list_user_roles_some_role
+      user.roles.include?('admin')? (check_box :roles, checked: 'checked', name: 'user[roles][]', value: 'admin') : (check_box :roles, name: 'user[roles][]', value: 'admin')
+      label I18n.t :list_user_roles_admin
     end
   end
 end
@@ -94,7 +94,7 @@ Each application has its own set of policies. To create a policy for the app `We
 rokku -n web -p notification
 {% endhighlight %}
 
-Rokku creates the policy file for us. As per instruction we need to uncomment the required roles and add the roles them. In the example below the role `some_user` is authorized for all actions.
+Rokku creates the policy file for us. As per instruction we need to uncomment and specify the required roles. In the example below the role `new_user` is authorized for all actions.
 
 {% highlight ruby %}
   module Web
@@ -103,13 +103,13 @@ Rokku creates the policy file for us. As per instruction we need to uncomment th
         @user_roles = roles
         # Uncomment the required roles and add the
         # appropriate user role to the @authorized_roles* array.
-        @authorized_roles_for_new = ["some_user"]
-        @authorized_roles_for_create = ["some_user"]
-        @authorized_roles_for_show = ["some_user"]
-        @authorized_roles_for_index = ["some_user"]
-        @authorized_roles_for_edit = ["some_user"]
-        @authorized_roles_for_update = ["some_user"]
-        @authorized_roles_for_destroy = ["some_user"]
+        @authorized_roles_for_new = ["new_user"]
+        @authorized_roles_for_create = ["new_user"]
+        @authorized_roles_for_show = ["new_user"]
+        @authorized_roles_for_index = ["new_user"]
+        @authorized_roles_for_edit = ["new_user"]
+        @authorized_roles_for_update = ["new_user"]
+        @authorized_roles_for_destroy = ["new_user"]
       end
 
       def new?
@@ -145,9 +145,9 @@ Rokku creates the policy file for us. As per instruction we need to uncomment th
 
 
 ## 3. Prepare the authorization check before call
-To autmatically check for authorization for **each request** we can prepare a separate module for that. In such module `Authorization` we then need to make two things.
-1. First we need to define all the controllers and their respective singluar forms to match the policy name. 
-2. Check if the currently logged in user is authorized. We do this by calling the `authorized?` method of the Rokku. We get the arguments for the method by splitting the controller.
+To automatically check for authorization for **each request**, we can prepare a separate module for that. In such module `Authorization` we then need to make two things.
+1. First we need to define all the controllers and their respective singular forms to match the policy name. 
+2. Check if the currently logged in user is authorized. We do this by calling the `authorized?` method of Rokku. We get the arguments for the method by splitting the controller.
 
 
 {% highlight ruby %}
