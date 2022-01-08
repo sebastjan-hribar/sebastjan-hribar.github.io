@@ -14,7 +14,7 @@ There are currently four main application elements that drive authorization: use
 ## 1. Users
 
 ### 1.1 Entities
-There are only two prerequisites for the user. The user entity must have an attribute of "roles", which is later on specified in the corresponding policy. Below is an example of a user entity that fulfills prerequisites for both Rokku as well as Tachiban. Notice that "roles" are of type Array. They could also be a String in case users may only have one role.
+There are only two prerequisites for the user. The user entity must have an attribute of `roles`, which is later on specified in the corresponding policy. Below is an example of a user entity that fulfills prerequisites for both Rokku as well as Tachiban. Notice that `roles` are of type Array. They could also be a String in case users may only have one role.
 
 {% highlight ruby %}
 Hanami::Model.migration do
@@ -39,7 +39,7 @@ Hanami::Model.migration do
 end
 {% endhighlight %}
 
-I'll be using named roles like "new_user", "admin" etc. The user assigned role will be compared to the role for a specific policy.
+I'll be using named roles like `new_user`, `admin` etc. The user assigned role will be compared to the role for a specific policy.
 
 ### 1.2 Templates
 Here is a shortened example of the new and edit templates for the user. Strings such as labels are represented by symbols to leverage the internationalization.
@@ -88,13 +88,13 @@ end
 
 
 ## 2. Policies
-Each application has its own set of policies. To create a policy for the app 'Web' and controller 'Notification' we run the following command in the project root folder.
+Each application has its own set of policies. To create a policy for the app `Web` and controller `Notification` we run the following command in the project root folder.
 
 {% highlight ruby %}
 rokku -n web -p notification
 {% endhighlight %}
 
-Rokku creates the policy file for us. As per instruction we need to uncomment the required roles and add the roles them. In the example below the role "some_user" is authorized for all actions.
+Rokku creates the policy file for us. As per instruction we need to uncomment the required roles and add the roles them. In the example below the role `some_user` is authorized for all actions.
 
 {% highlight ruby %}
   module Web
@@ -190,7 +190,7 @@ controller.prepare do
 end
 {% endhighlight %}
 
-Last but not least, we need to override the "check_authorization" method in all actions where we don't require it.
+Last but not least, we need to override the `check_authorization` method in all actions where we don't require it.
 
 {% highlight ruby %}
 def check_authorization; end
